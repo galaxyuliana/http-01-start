@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private postsService: PostsService) {}
 
   ngOnInit() {
-    this.fetchPosts();
+    this.postsService.fetchPosts();
   }
 
   onCreatePost(postData: Post) {
@@ -26,30 +26,10 @@ export class AppComponent implements OnInit {
 
   onFetchPosts() {
     // Send Http request
-    this.fetchPosts();
+    this.postsService.fetchPosts();
   }
 ß
   onClearPosts() {
     // Send Http request
-  }
-
-  private fetchPosts() {
-    this.isFetching = true;
-    this.http
-    .get<{ [key:string] : Post }>('https://ng-complete-guide-b78b6-default-rtdb.firebaseio.com/posts.json')
-    .pipe(map(responseData => {
-      const postsArray: Post[] = [];
-      for(const key in responseData) {
-        if(responseData.hasOwnProperty(key)) {
-          postsArray.push({...responseData[key], id: key})
-        }
-      }
-      return postsArray;
-    }))
-    .subscribe(posts => {
-      // console.log(posts);
-      this.isFetching = false;
-      this.loadedPosts = posts;
-    });
   }
 }
