@@ -12,7 +12,9 @@ export class PostsService {
 
     createAndStorePost(title: string, content: string) {
         const postData: Post = {title: title, content: content}
-        this.http.post<{ name: string }>('https://ng-complete-guide-b78b6-default-rtdb.firebaseio.com/posts.json', postData)
+        this.http.post<{ name: string }>('https://ng-complete-guide-b78b6-default-rtdb.firebaseio.com/posts.json', postData, {
+          observe: 'response'
+        })
         .subscribe(responseData => {
           console.log(responseData)
         }, error => {
